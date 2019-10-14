@@ -27,5 +27,9 @@ Supported options:
 * `timeout`: The timeout to pass to `XREAD` command, in milliseconds. Defaults to `60000`.
 * `count`: The count to pass to `XREAD` command, i.e. the maximum number of entries to fetch per command. Defaults to `100`.
 
+Every entry will be an object, with the ID of the entry in the `_id` key.
+
 ## writeToStream(key)
 Create a Node stream that writes to the Redis stream with key `key`. Currently there isn't anything to configure.
+
+The stream accepts objects with the same format as `readFromStream`. If the `_id` key is present, it will be sent in the `XADD` command as the expected ID of the entry, otherwise Redis will generate the ID. The `_id` key will be overwritten with the returned value after the write is acknowledged.
