@@ -1,0 +1,26 @@
+{
+  "name": "redis-streams2",
+  "version": "0.0.1",
+  "description": "Turn a Redis 5 stream into a nodejs stream.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vincent-163/node-redis-stream.git"
+  },
+  "keywords": [
+    "redis",
+    "stream"
+  ],
+  "author": "vincent163",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vincent-163/node-redis-stream/issues"
+  },
+  "homepage": "https://github.com/vincent-163/node-redis-stream#readme",
+  "dependencies": {
+    "redis": "^2.8.0"
+  }
+}
