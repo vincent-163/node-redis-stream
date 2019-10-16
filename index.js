@@ -1,5 +1,7 @@
 const { Readable, Writable } = require("stream");
 
+const id = new Symbol("id");
+
 module.exports = function(redis) {
   redis.RedisClient.prototype.readFromStream = function(key, options) {
     return new RedisReadStream(this, key, options);
@@ -8,6 +10,7 @@ module.exports = function(redis) {
     return new RedisWriteStream(this, key);
   };
 };
+module.exports.id = id;
 
 class RedisReadStream extends Readable {
   constructor(redisClient, key, options) {
@@ -41,7 +44,7 @@ class RedisReadStream extends Readable {
       (err, replies) => {
         try {
           if (err) throw err;
-          else if (!replies) this._fetch(n);
+          else if (!replies) this._fetch();
           else {
             if (replies.length !== 1) throw new Error("invalid XREAD reply");
             const reply = replies[0];
@@ -88,18 +91,17 @@ class RedisWriteStream extends Writable {
   }
   _write(chunk, encoding, callback) {
     let cmd = [this.key];
-    if (chunk._id) {
-      cmd.push(chunk._id);
+    if (chunk[id]) {
+      cmd.push(chunk[id]);
     } else {
       cmd.push("*");
     }
     for (let key in chunk) {
-      if (key === "_id") continue;
       cmd.push(key);
       cmd.push(chunk[key]);
     }
     this.redisClient.xadd(cmd, function(err, reply) {
-      if (!err) chunk._id = reply;
+      if (!err) chunk[id] = reply;
       callback(err);
     });
   }
