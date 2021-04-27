@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/vincent-163/node-redis-stream#readme",
   "dependencies": {
-    "redis": "^2.8.0"
+    "redis": "^3.1.1"
   }
 }
